@@ -47,7 +47,7 @@ object TestKitPlugin extends AutoPlugin {
           (TestKit / packageSrc / artifact).value -> (TestKit / packageSrc).value,
           (TestKit / packageDoc / artifact).value -> (TestKit / packageDoc).value
         )
-      else Map.empty
+      else Map.empty[Artifact, File]
     }
   )
 }
