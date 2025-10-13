@@ -11,9 +11,10 @@ object TestKitPlugin extends AutoPlugin {
     val TestKit: Configuration = config("testkit").extend(Compile)
 
     val testkitPublishClassifier = settingKey[Boolean]("Whether to publish the testkit classifier artifact.")
-    val testkitClassifier = settingKey[String]("Classifier name to use for the testkit artifact.")
   }
   import autoImport.*
+
+  private val Classifier = "testkit"
 
   override def projectConfigurations: Seq[Configuration] = Seq(TestKit)
 
@@ -24,13 +25,12 @@ object TestKitPlugin extends AutoPlugin {
     Test / unmanagedSourceDirectories ++= (TestKit / unmanagedSourceDirectories).value,
     Test / unmanagedResourceDirectories ++= (TestKit / unmanagedResourceDirectories).value,
     testkitPublishClassifier := false,
-    testkitClassifier := "testkit",
     TestKit / packageBin / artifact :=
-      (Compile / packageBin / artifact).value.withClassifier(Some(testkitClassifier.value)),
+      (Compile / packageBin / artifact).value.withClassifier(Some("testkit")),
     TestKit / packageSrc / artifact :=
-      (Compile / packageSrc / artifact).value.withClassifier(Some(testkitClassifier.value)),
+      (Compile / packageSrc / artifact).value.withClassifier(Some("testkit-sources")),
     TestKit / packageDoc / artifact :=
-      (Compile / packageDoc / artifact).value.withClassifier(Some(testkitClassifier.value)),
+      (Compile / packageDoc / artifact).value.withClassifier(Some("testkit-javadoc")),
     artifacts ++= {
       if (testkitPublishClassifier.value)
         Seq(
