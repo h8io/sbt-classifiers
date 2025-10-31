@@ -2,7 +2,7 @@ ThisBuild / organization := "io.h8.sbt"
 ThisBuild / organizationName := "H8IO"
 ThisBuild / organizationHomepage := Some(url("https://github.com/h8io/"))
 
-ThisBuild / description := "SBT testkit config"
+ThisBuild / description := "SBT classifiers"
 ThisBuild / licenses := List("Apache 2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 ThisBuild / homepage := Some(url("https://github.com/h8io/sbt-classifiers"))
 ThisBuild / versionScheme := Some("semver-spec")
@@ -29,8 +29,8 @@ ThisBuild / developers := List(
 
 ThisBuild / scmInfo := Some(
   ScmInfo(
-    url("https://github.com/h8io/sbt-testkit"),
-    "scm:git@github.com:h8io/sbt-testkit.git"
+    url("https://github.com/h8io/sbt-classifiers"),
+    "scm:git@github.com:h8io/sbt-classifiers.git"
   )
 )
 
