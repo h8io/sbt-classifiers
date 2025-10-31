@@ -12,5 +12,7 @@ object TestKitClassifierPlugin extends ClassifierPlugin {
 
   protected def classifierConfig: sbt.Configuration = TestKitClassifierConfiguration
 
-  override protected def publishClassifier: SettingKey[Boolean] = testkitPublishClassifier
+  protected def publishClassifier: SettingKey[Boolean] = testkitPublishClassifier
+
+  protected def classifier: String = "testkit"
 }
