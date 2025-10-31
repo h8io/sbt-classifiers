@@ -1,10 +1,12 @@
+import scala.xml.Elem
+
 ThisBuild / organization := "io.h8.sbt"
 ThisBuild / organizationName := "H8IO"
 ThisBuild / organizationHomepage := Some(url("https://github.com/h8io/"))
 
-ThisBuild / description := "SBT testkit config"
+ThisBuild / description := "SBT classifiers"
 ThisBuild / licenses := List("Apache 2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
-ThisBuild / homepage := Some(url("https://github.com/h8io/sbt-testkit"))
+ThisBuild / homepage := Some(url("https://github.com/h8io/sbt-classifiers"))
 ThisBuild / versionScheme := Some("semver-spec")
 
 ThisBuild / dynverSonatypeSnapshots := true
@@ -29,8 +31,8 @@ ThisBuild / developers := List(
 
 ThisBuild / scmInfo := Some(
   ScmInfo(
-    url("https://github.com/h8io/sbt-testkit"),
-    "scm:git@github.com:h8io/sbt-testkit.git"
+    url("https://github.com/h8io/sbt-classifiers"),
+    "scm:git@github.com:h8io/sbt-classifiers.git"
   )
 )
 
@@ -39,7 +41,7 @@ ThisBuild / dynverSonatypeSnapshots := true
 val plugin = project
   .enablePlugins(SbtPlugin, ScoverageSummaryPlugin)
   .settings(
-    name := "sbt-testkit",
+    name := "sbt-classifiers",
     sbtPlugin := true,
     sbtPluginPublishLegacyMavenStyle := false,
     pluginCrossBuild / sbtVersion := {
@@ -50,3 +52,32 @@ val plugin = project
     },
     libraryDependencies ++= Seq("org.scala-sbt" % "sbt" % (pluginCrossBuild / sbtVersion).value)
   )
+
+val relocated = project
+  .in(file("relocated"))
+  .settings(
+    name := "sbt-testkit",
+    Compile / packageBin / publishArtifact := false,
+    Compile / packageSrc / publishArtifact := false,
+    Compile / packageDoc / publishArtifact := false,
+    pomPostProcess := {
+      case e: Elem if e.label == "project" =>
+        val noPackaging = e.child.filterNot(_.label == "packaging")
+        e.copy(child = noPackaging :+ <packaging>pom</packaging>)
+      case other => other
+    },
+    pomExtra :=
+      <distributionManagement>
+      <relocation>
+        <groupId>io.h8.sbt</groupId>
+        <artifactId>sbt-classifiers</artifactId>
+        <version>0.0.3</version>
+        <message>Moved to io.h8.sbt:sbt-classifiers</message>
+      </relocation>
+    </distributionManagement>
+  )
+
+val root = project
+  .in(file("."))
+  .aggregate(plugin, relocated)
+  .settings(publish / skip := true)
