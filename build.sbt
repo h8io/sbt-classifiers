@@ -4,7 +4,7 @@ ThisBuild / organizationHomepage := Some(url("https://github.com/h8io/"))
 
 ThisBuild / description := "SBT testkit config"
 ThisBuild / licenses := List("Apache 2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
-ThisBuild / homepage := Some(url("https://github.com/h8io/sbt-testkit"))
+ThisBuild / homepage := Some(url("https://github.com/h8io/sbt-classifiers"))
 ThisBuild / versionScheme := Some("semver-spec")
 
 ThisBuild / scalaVersion := "2.12.20"
@@ -36,7 +36,7 @@ ThisBuild / dynverSonatypeSnapshots := true
 val plugin = project
   .enablePlugins(SbtPlugin, ScoverageSummaryPlugin)
   .settings(
-    name := "sbt-testkit",
+    name := "sbt-classifiers",
     sbtPlugin := true,
     sbtPluginPublishLegacyMavenStyle := false,
     pluginCrossBuild / sbtVersion := {
