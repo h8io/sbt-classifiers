@@ -11,7 +11,9 @@ object CatsClassifierPlugin extends ClassifierPlugin {
   }
   import autoImport.*
 
-  override protected def classifierConfig: sbt.Configuration = CatsClassifierConfiguration
+  protected def classifierConfig: sbt.Configuration = CatsClassifierConfiguration
 
-  override protected def publishClassifier: SettingKey[Boolean] = catsPublishClassifier
+  protected def publishClassifier: SettingKey[Boolean] = catsPublishClassifier
+
+  protected def classifier: String = "cats"
 }
