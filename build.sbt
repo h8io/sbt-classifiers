@@ -7,6 +7,9 @@ ThisBuild / licenses := List("Apache 2" -> url("http://www.apache.org/licenses/L
 ThisBuild / homepage := Some(url("https://github.com/h8io/sbt-testkit"))
 ThisBuild / versionScheme := Some("semver-spec")
 
+ThisBuild / dynverSonatypeSnapshots := true
+ThisBuild / dynverSeparator := "-"
+
 ThisBuild / scalaVersion := "2.12.20"
 // ThisBuild / crossScalaVersions += "3.7.2"
 ThisBuild / scalacOptions ++= (CrossVersion.partialVersion(scalaVersion.value) match {
