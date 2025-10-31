@@ -1,3 +1,5 @@
+import com.jsuereth.sbtpgp.PgpKeys.publishSigned
+
 import scala.xml.Elem
 
 ThisBuild / organization := "io.h8.sbt"
@@ -52,32 +54,3 @@ val plugin = project
     },
     libraryDependencies ++= Seq("org.scala-sbt" % "sbt" % (pluginCrossBuild / sbtVersion).value)
   )
-
-val relocated = project
-  .in(file("relocated"))
-  .settings(
-    name := "sbt-testkit",
-    Compile / packageBin / publishArtifact := false,
-    Compile / packageSrc / publishArtifact := false,
-    Compile / packageDoc / publishArtifact := false,
-    pomPostProcess := {
-      case e: Elem if e.label == "project" =>
-        val noPackaging = e.child.filterNot(_.label == "packaging")
-        e.copy(child = noPackaging :+ <packaging>pom</packaging>)
-      case other => other
-    },
-    pomExtra :=
-      <distributionManagement>
-      <relocation>
-        <groupId>io.h8.sbt</groupId>
-        <artifactId>sbt-classifiers</artifactId>
-        <version>0.0.3</version>
-        <message>Moved to io.h8.sbt:sbt-classifiers</message>
-      </relocation>
-    </distributionManagement>
-  )
-
-val root = project
-  .in(file("."))
-  .aggregate(plugin, relocated)
-  .settings(publish / skip := true)
