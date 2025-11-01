@@ -2,17 +2,19 @@ package h8io.sbt
 
 import sbt.*
 
-object TestKitClassifierPlugin extends ClassifierPlugin {
-  object autoImport {
-    val TestKitClassifierConfiguration = config("testkit").extend(Compile)
+object TestKitClassifierPlugin extends ArtifactClassifierPlugin {
+  protected def artifactClassifier: String = "testkit"
 
-    val testkitPublishClassifier = settingKey[Boolean]("Whether to publish the testkit classifier artifact.")
+  object autoImport {
+    object testkit {
+      val Variant: Configuration = config(artifactClassifier).extend(Compile).describedAs("TestKit variant")
+
+      val artifactsEnabled = settingKey[Boolean]("Whether to publish the testkit classifier artifact.")
+    }
   }
   import autoImport.*
 
-  protected def classifierConfig: sbt.Configuration = TestKitClassifierConfiguration
+  protected def classifiedConfig: sbt.Configuration = testkit.Variant
 
-  protected def publishClassifier: SettingKey[Boolean] = testkitPublishClassifier
-
-  protected def classifier: String = "testkit"
+  protected def classifierArtifactsEnabled: SettingKey[Boolean] = testkit.artifactsEnabled
 }

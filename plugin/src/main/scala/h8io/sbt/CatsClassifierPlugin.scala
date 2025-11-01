@@ -1,19 +1,20 @@
 package h8io.sbt
 
 import sbt.*
-import sbt.Keys.*
 
-object CatsClassifierPlugin extends ClassifierPlugin {
+object CatsClassifierPlugin extends ArtifactClassifierPlugin {
+  protected def artifactClassifier: String = "cats"
+
   object autoImport {
-    val CatsClassifierConfiguration = config("cats").extend(Compile)
+    object cats {
+      val Variant: Configuration = config(artifactClassifier).extend(Compile).describedAs("Cats variant")
 
-    val catsPublishClassifier = settingKey[Boolean]("Whether to publish the cats classifier artifact.")
+      val artifactsEnabled = settingKey[Boolean]("Whether to publish the cats classifier artifact.")
+    }
   }
   import autoImport.*
 
-  protected def classifierConfig: sbt.Configuration = CatsClassifierConfiguration
+  protected def classifiedConfig: sbt.Configuration = cats.Variant
 
-  protected def publishClassifier: SettingKey[Boolean] = catsPublishClassifier
-
-  protected def classifier: String = "cats"
+  protected def classifierArtifactsEnabled: SettingKey[Boolean] = cats.artifactsEnabled
 }
