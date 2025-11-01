@@ -1,7 +1,3 @@
-import com.jsuereth.sbtpgp.PgpKeys.publishSigned
-
-import scala.xml.Elem
-
 ThisBuild / organization := "io.h8.sbt"
 ThisBuild / organizationName := "H8IO"
 ThisBuild / organizationHomepage := Some(url("https://github.com/h8io/"))
@@ -17,8 +13,23 @@ ThisBuild / dynverSeparator := "-"
 ThisBuild / scalaVersion := "2.12.20"
 // ThisBuild / crossScalaVersions += "3.7.2"
 ThisBuild / scalacOptions ++= (CrossVersion.partialVersion(scalaVersion.value) match {
-  case Some((2, 12)) => Seq("-Xsource:3")
-  case _             => Nil
+  case Some((2, 12)) =>
+    Seq(
+      "-Xsource:3",
+      "-language:higherKinds",
+      "--deprecation",
+      "--feature",
+      "--unchecked",
+      "-Xlint:_",
+      "-Xfatal-warnings",
+      "-opt:l:inline",
+      "-opt-warnings",
+      "-Ywarn-unused",
+      "-Ywarn-dead-code",
+      "-Ywarn-unused:-nowarn",
+      "-Ypartial-unification"
+    )
+  case _ => Nil
 })
 ThisBuild / javacOptions ++= Seq("-target", "8")
 
@@ -49,7 +60,7 @@ val plugin = project
     pluginCrossBuild / sbtVersion := {
       scalaBinaryVersion.value match {
         case "2.12" => "1.8.0"
-        case _      => "2.0.0-RC6"
+        case _ => "2.0.0-RC6"
       }
     },
     libraryDependencies ++= Seq("org.scala-sbt" % "sbt" % (pluginCrossBuild / sbtVersion).value)
