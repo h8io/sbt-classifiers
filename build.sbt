@@ -10,7 +10,7 @@ ThisBuild / versionScheme := Some("semver-spec")
 ThisBuild / dynverSonatypeSnapshots := true
 ThisBuild / dynverSeparator := "-"
 
-ThisBuild / scalaVersion := "2.12.20"
+ThisBuild / scalaVersion := "2.12.21"
 // ThisBuild / crossScalaVersions += "3.7.2"
 ThisBuild / scalacOptions ++= (CrossVersion.partialVersion(scalaVersion.value) match {
   case Some((2, 12)) =>
